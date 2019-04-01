@@ -1,22 +1,23 @@
 <template>
   <div id="app">
-    <Menu/>
-    <!-- <Home/> -->
-    <!-- <router-view></router-view> -->
+    <!-- <Menu/> -->
+    <Welcome/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import Welcome from './views/Welcome.vue'
 import Menu from './components/Menu.vue'
-import Home from './components/Home.vue'
+// import Home from './components/Home.vue'
 
 export default {
   name: 'app',
   components: {
     HelloWorld,
     Menu,
-    Home
+    Welcome
   }
 }
 </script>

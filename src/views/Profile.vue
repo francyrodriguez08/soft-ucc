@@ -1,7 +1,7 @@
 <template>
     <div class="profile">
         <h1>Profile</h1>
-        <router-link to="/">mkgrktntjkrjg</router-link>
+        <!-- <router-link to="/">mkgrktntjkrjg</router-link> -->
     </div>
 </template>
 
@@ -11,6 +11,6 @@ export default {
 }
 </script>
 
-<style soped>
+<style scoped>
 
 </style>
