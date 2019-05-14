@@ -18,8 +18,9 @@
             dark
             label="Correo electrónico"
             required
-            prepend-icon="phone"
+            prepend-icon="person_outline"
           ></v-text-field>
+          
           <v-text-field
          class="input"
             v-model="password"
@@ -28,9 +29,10 @@
             label="Contraseña"
             password
             required
+            prepend-icon="mail_outline"
           ></v-text-field>
-             <div class="button primary">Ingresar</div>
-             <!-- <div class="button secundary">Iniciar sesión</div> -->
+          <div class="button primary" @click="redirect('/Experiences')">Ingresar</div>
+          <!-- <div class="button secundary">Iniciar sesión</div> -->
          </div>
     </div>
 </template>
@@ -53,6 +55,11 @@ export default {
         v => /.+@.+/.test(v) || "E-mail no valido"
       ]
     };
+  },
+  methods:{
+      redirect(ruta){
+          this.$router.push(ruta);
+      }
   }
 };
 </script>
@@ -128,6 +135,9 @@ export default {
     flex: initial !important;
     max-width: 280px;
     width: 100%;
+}
+.icon {
+  color:#fff
 }
 </style>
 
