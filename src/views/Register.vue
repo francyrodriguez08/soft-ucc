@@ -11,25 +11,36 @@
              </div>
          </div>
          <div class="bottom">
+        <v-form 
+        ref="form"
+        v-model="valid"
+        lazy-validation
+        @submit.prevent="registerPerfil">
          <v-text-field
          class="input"
             v-model="name"
+            name="name"
             :rules="nameRules"
             dark
             label="Nombres"
             required
+            prepend-icon="person_outline"
           ></v-text-field>
          <v-text-field
          class="input"
             v-model="email"
+            name="email"
             :rules="emailRules"
             dark
             label="Correo electrónico"
             required
+            prepend-icon="mail_outline"
           ></v-text-field>
           <v-text-field dark
             class="input"
             color="white"
+            name="pass"
+            v-model="password"
             :append-icon="show1 ? 'visibility' : 'visibility_off'"
             :rules="[rules.required, rules.min]"
             :type="show1 ? 'text' : 'password'"
@@ -37,24 +48,27 @@
             hint="Al menos 8 carácteres"
             counter
             @click:append="show1 = !show1"
+            prepend-icon="lock_outline"
           ></v-text-field>
-             <div class="button primary">Ingresar</div>
-             <div class="back" @click="redirect">Ya estoy registrado</div>
+          <v-radio-group v-model="check" row>
+            <v-radio label="Personal" value="personal" color="orange" dark></v-radio>
+            <v-radio label="Empresa" value="empresa" color="orange" dark></v-radio>
+          </v-radio-group>
+          <v-btn class="button primary" type="submit" color="teal">Ingresar</v-btn>
+          <div class="back" @click="redirect('/')">Ya estoy registrado</div>
+         </v-form>
          </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  methods:{
-      redirect(){
-          this.$router.push('/');
-      }
-  },
-
   data() {
     return {
       valid: true,
+      errorMessage: '',
+        successMessage: '',
       name: "",
       nameRules: [
         v => !!v || "Nombre es obligatorio"
@@ -65,14 +79,84 @@ export default {
         v => /.+@.+/.test(v) || "E-mail no valido"
       ],
       show1: false,
-      password: 'Password',
+      password: '',
       rules: {
         required: value => !!value || 'Contraseña es obligatoria',
         min: v => v.length >= 8 || 'Min 8 carácteres',
         emailMatch: () => ('El correo electrónico y la contraseña que ingresaste no coinciden')
-      }
+      },
+      check: ''
     };
-  }
+  },
+     methods:{
+      redirect(ruta){
+          this.$router.push(ruta);
+      },
+         validate() {
+      if (this.$refs.form.validate()) {
+        this.snackbar = true;
+      } else {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        Toast.fire({
+          type: "error",
+          title: "Llenar todos los campos"
+        });
+      }
+    },
+      setMessages(res) {
+      if (res.data.error) {
+        this.errorMessage = res.data.message;
+      } else {
+        this.successMessage = res.data.message;
+      }
+      setTimeout(() => {
+        this.errorMessage = false;
+        this.successMessage = false;
+      }, 2000);
+    },
+    // registerPerfil(e) {
+    //   axios
+    //     .post(
+    //       "http://localhost/soft-ucc/src/api.php?action=create",
+    //       new FormData(e.target)
+    //     )
+    //     .then(res => {
+    //       console.log(new FormData(e.target))
+    //       this.setMessages(res);
+    //       const Toast = Swal.mixin({
+    //         toast: true,
+    //         position: "top-end",
+    //         showConfirmButton: false,
+    //         timer: 3000
+    //       });
+    //       Toast.fire({
+    //         type: "success",
+    //         title: "Pefil creado exitosamente"
+    //       });
+    //       this.reset();
+    //     });
+    // }
+      registerPerfil(e) {
+        // console.log(new FormData( e.target ))
+        axios
+        .post(
+          "http://localhost/soft-ucc/src/api.php?action=create", 
+           new FormData( e.target )
+          // {
+          //   nom_perfil: this.name,
+          //   email_perfil: this.email,
+          //   pass_perfil: this.password,
+          // }
+        ).then(res => {
+          this.setMessages(res)
+        });
+      }
+  },
 };
 </script>
 
@@ -100,7 +184,7 @@ export default {
   margin: 0 auto;
 }
 .top {
-  height: 50vh;
+  height: 42vh;
 }
 .wrapper {
   display: flex;
@@ -125,10 +209,15 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 7px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 .primary {
   background-color: teal;
+  cursor: pointer;
+  transition: all ease .3s;
+}
+.primary:hover {
+  background-color: rgb(15, 119, 119);
 }
 .secundary {
   border: 1px solid #fff;
@@ -150,6 +239,9 @@ export default {
 }
 .back{
   margin-top: 10px;
+}
+.v-input {
+  flex: initial;
 }
 </style>
 
