@@ -9,6 +9,7 @@ import Experiences from '../views/Experiences'
 import Favorite from '../views/Favorite'
 import Maps from '../views/Maps'
 import InfoPlace from '../views/InfoPlace'
+import ListPlace from '../components/ListPlace.vue'
 
 Vue.use(Router)
 
@@ -34,9 +35,18 @@ export default new Router({
         component: Register,
       },
       {
-        path: "/experiences",
-        name: "Experiences",
+        path: "/Experiences",
         component: Experiences,
+        children: [
+          {
+            path: "",
+            component: ListPlace,
+          },
+          {
+            path: "infoPlace/:id",
+            component: InfoPlace,
+          }
+        ]
       },
       {
         path: "/favorite",
@@ -58,10 +68,5 @@ export default new Router({
         name: "Maps",
         component: Maps,
       },
-      {
-        path: "/infoPlace/:id",
-        name: "InfoPlace",
-        component: InfoPlace,
-      }
     ]
   });

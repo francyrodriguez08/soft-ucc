@@ -6,8 +6,12 @@ import 'vuetify/dist/vuetify.min.css'
 import router from './router/index'
 import * as VueGoogleMaps from 'vue2-google-maps';
 import BootstrapVue from "bootstrap-vue";
-Vue.use(BootstrapVue);
 import axios from 'axios'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+
+Vue.use(VueAwesomeSwiper)
+Vue.use(BootstrapVue);
 Vue.prototype.$http = axios;
 
 Vue.use(Vuetify, {
@@ -16,7 +20,7 @@ Vue.use(Vuetify, {
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyBAoiVduLkgMW9ewCpH4PTpd8vaFxLW-v4',
+    key: 'AIzaSyCaheZnn2J6Pqyr6L9PUSuukWebL0gME0I',
     libraries: 'places'
   }
 });
