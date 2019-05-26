@@ -53,7 +53,7 @@ export default {
         lat: 4.1466671,
         lng: -73.6225355
       };
-      this.markers.push(marker);s
+      this.markers.push(marker);
       this.center = marker;
     },
     geolocate: function() {

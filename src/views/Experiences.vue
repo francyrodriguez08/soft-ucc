@@ -7,19 +7,19 @@
         <v-container>
           <div class="inputPlace">
             <v-text-field placeholder="¿A donde quieres ir?" prepend-inner-icon="search" color="teal" ></v-text-field>
-            <v-icon @click="redirect('/Maps')">place</v-icon>
+            <v-icon @click="redirect('/maps')">place</v-icon>
           </div>
             <Categorys />
           <div class="wrapper">
-              <Card v-for="(item, index) in cards" :key="index"/>
+              <Card @click.native="redirect(`/infoPlace/${item.id}`)" v-for="item in cards" :key="item.id" :post="item" />
           </div>
         </v-container>
 
-        <!-- <div>
+        <div>
             <gmap-map :center="center" :zoom="15" style="width: 100%; height: 557px">
                 <gmap-marker v-for="(item, index) in markers" :key="index" :position="getPosition(item)"/>
             </gmap-map>
-        </div> -->
+        </div>
         <Menu />
 
         <!-- <h1>Explorar</h1>
@@ -39,33 +39,39 @@ export default {
       cards: [
         {
           name: "Parque 1",
+          id: 1,
           stars: 4,
-          img: ""
+          img: "https://picsum.photos/id/10/200/300"
         },
         {
           name: "Parque 2",
+          id: 2,
           stars: 4,
-          img: ""
+          img: "https://picsum.photos/id/11/200/300"
         },
         {
           name: "Parque 3",
+          id: 3,
           stars: 4,
-          img: ""
+          img: "https://picsum.photos/id/12/200/300"
         },
         {
           name: "Parque 4",
+          id: 4,
           stars: 4,
-          img: ""
+          img: "https://picsum.photos/id/13/200/300"
         },
         {
           name: "Parque 5",
+          id: 5,
           stars: 4,
-          img: ""
+          img: "https://picsum.photos/id/14/200/300"
         },
         {
           name: "Parque 6",
+          id: 6,
           stars: 4,
-          img: ""
+          img: "https://picsum.photos/id/15/200/300"
         }
       ],
       center: { lat: 4.1168257, lng: -73.6089986 },

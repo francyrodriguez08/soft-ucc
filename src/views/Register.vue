@@ -55,7 +55,7 @@
             <v-radio label="Empresa" value="empresa" color="orange" dark></v-radio>
           </v-radio-group>
           <v-btn class="button primary" type="submit" color="teal">Ingresar</v-btn>
-          <div class="back" @click="redirect('/')">Ya estoy registrado</div>
+          <div class="back" @click="redirect('/soft-ucc')">Ya estoy registrado</div>
          </v-form>
          </div>
     </div>

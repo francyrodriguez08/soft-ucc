@@ -8,6 +8,7 @@ import Register from '../views/Register'
 import Experiences from '../views/Experiences'
 import Favorite from '../views/Favorite'
 import Maps from '../views/Maps'
+import InfoPlace from '../views/InfoPlace'
 
 Vue.use(Router)
 
@@ -18,7 +19,7 @@ export default new Router({
     },
     routes: [
       {
-        path: "/",
+        path: "/soft-ucc",
         name: "Welcome",
         component: Welcome,
       },
@@ -56,6 +57,11 @@ export default new Router({
         path: "/maps",
         name: "Maps",
         component: Maps,
+      },
+      {
+        path: "/infoPlace/:id",
+        name: "InfoPlace",
+        component: InfoPlace,
       }
     ]
   });

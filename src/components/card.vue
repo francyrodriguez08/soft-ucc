@@ -4,11 +4,11 @@
             <div class="content-card">
             <v-card >
                 <v-img
-                    src="https://images.pexels.com/photos/2034335/pexels-photo-2034335.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                    :src="post.img"
                     height="100px"
                 ></v-img>
                 <v-card-title >
-                    <div class="title">Nombre del sitio</div>
+                    <div class="title">{{post.name}}</div>
                 </v-card-title>
                 <v-card-text>
                     <v-rating 
@@ -29,7 +29,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+    props:{
+        post: Object
+    },
+    data() {
+        return {
+            rating: 5   
+        }
+    }
+};
 </script>
 
 <style scoped>
