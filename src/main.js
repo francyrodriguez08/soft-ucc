@@ -4,6 +4,7 @@ import App from './App.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import router from './router/index'
+import store from './store/store'
 import * as VueGoogleMaps from 'vue2-google-maps';
 import BootstrapVue from "bootstrap-vue";
 import axios from 'axios'
@@ -20,7 +21,7 @@ Vue.use(Vuetify, {
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyCaheZnn2J6Pqyr6L9PUSuukWebL0gME0I',
+    key: 'AIzaSyBemcbepduZI6iQdT3a42UyLX8U8jHWphQ',
     libraries: 'places'
   }
 });
@@ -29,5 +30,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')
