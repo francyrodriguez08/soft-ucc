@@ -9,20 +9,44 @@
             <gmap-marker v-for="(item, index) in markers" :key="index" :position="getPosition(item)"/>
         </gmap-map>
         <div class="container">
-        <swiper :options="swiperOption">
-        <swiper-slide>         
-                <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>           
-            </swiper-slide>
-        <swiper-slide>           
-                <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>           
-            </swiper-slide>
-        <swiper-slide >           
-                <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>           
-            </swiper-slide>
-        <swiper-slide >           
-                <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>          
-            </swiper-slide>
-      </swiper>
+            <swiper :options="swiperOption">
+                <swiper-slide>         
+                    <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>           
+                </swiper-slide>
+                <swiper-slide>           
+                    <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>           
+                </swiper-slide>
+                <swiper-slide >           
+                    <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>           
+                </swiper-slide>
+                <swiper-slide >           
+                    <div class="color"><img src="https://picsum.photos/id/10/400" alt=""></div>          
+                </swiper-slide>
+            </swiper>
+            <div class="text-xs-left mt-3">
+                <div class="title">Nombre de sitio</div>
+                <v-rating v-model="rating"
+                color="yellow darken-3"
+                background-color="grey darken-1"
+                empty-icon="$vuetify.icons.ratingFull"
+                half-increments
+                hover
+                size="18"
+                dense
+                ></v-rating>
+            </div>
+            <div>
+                <p class="text-xs-left mt-2">
+                    Lorem ipsum dolor sit amet consectetur adipiscing elit ornare at, augue eu porttitor 
+                    vestibulum cras porta sapien quis.
+                </p>
+                <div class="text-xs-left">
+                    <v-icon>place</v-icon><span class="subheading">Dirección</span>
+                </div>
+                <div class="text-xs-left">
+                    <v-icon>schedule</v-icon><span class="subheading">Horario</span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -31,6 +55,7 @@
 export default {
   mounted() {
     this.geolocate();
+    console.log(this.$route.params.id);
   },
   data() {
     return {
@@ -55,7 +80,7 @@ export default {
     };
   },
   methods: {
-      redirect(ruta) {
+    redirect(ruta) {
       this.$router.go(-1);
     },
     getPosition(marker) {
@@ -109,6 +134,6 @@ img {
 }
 .container {
   box-sizing: border-box;
-  padding: 10px;
+  padding: 15px;
 }
 </style>
