@@ -31,11 +31,12 @@
 <script>
 export default {
     props:{
-        post: Object
+        post: Object,
+        'stars' : String,
     },
     data() {
         return {
-            rating: 5   
+            rating: this.$props.stars
         }
     }
 };

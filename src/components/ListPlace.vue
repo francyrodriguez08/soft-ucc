@@ -11,18 +11,14 @@
             <!-- <router-link to="/maps"></router-link> -->
             <v-icon @click="redirect('/maps')">place</v-icon>
           </div>
-            <Categorys />
+          <Categorys />
           <div class="wrapper">
-            <router-link tag="li" :to="`Experiences/infoPlace/${item.id}`" v-for="item in cards" :key="item.id">
-              <Card :post="item" />
-          </router-link>
+            <router-link tag="li" :to="`Experiences/infoPlace/id=${item.id}`" v-for="item in cards" :key="item.id">
+              <Card :post="item" :stars="item.stars" />
+            </router-link>
           </div>
+          <gmap-map ref="myMap"></gmap-map>
         </v-container>
-        <div>
-            <gmap-map :center="center" :zoom="15" style="width: 100%; height: 557px">
-                <gmap-marker v-for="(item, index) in markers" :key="index" :position="getPosition(item)"/>
-            </gmap-map>
-        </div>
         <Menu />
     </div>
 </template>
@@ -37,93 +33,59 @@ export default {
     return {
       route:'',
       cards: [
-        {
-          name: "Parque 1",
-          id: 1,
-          stars: 4,
-          img: "https://picsum.photos/id/10/200/300"
-        },
-        {
-          name: "Parque 2",
-          id: 2,
-          stars: 4,
-          img: "https://picsum.photos/id/11/200/300"
-        },
-        {
-          name: "Parque 3",
-          id: 3,
-          stars: 4,
-          img: "https://picsum.photos/id/12/200/300"
-        },
-        {
-          name: "Parque 4",
-          id: 4,
-          stars: 4,
-          img: "https://picsum.photos/id/13/200/300"
-        },
-        {
-          name: "Parque 5",
-          id: 5,
-          stars: 4,
-          img: "https://picsum.photos/id/14/200/300"
-        },
-        {
-          name: "Parque 6",
-          id: 6,
-          stars: 4,
-          img: "https://picsum.photos/id/15/200/300"
-        }
-      ],
-      center: { lat: 4.1168257, lng: -73.6089986 },
-      markers: [
-        {
-          nombre: "UCC",
-          lat: 4.1168257,
-          lng: -73.6089986
-        }
-      ],
-      places: [],
-      currentPlace: null
+        
+      ]
     };
   },
   mounted() {
-    this.geolocate();
+    let _this = this;
+    setTimeout(function(){
+      _this.searchCategory('restaurante');
+    }, 1000);
+  },
+  computed: {
+    category() {
+      if (this.$store.state.category) {
+        return this.$store.state.category;
+      }
+    }
+  },
+  watch: {
+    category(value) {
+      this.searchCategory(value);
+    }
   },
   methods: {
-    setPlace(place) {
-      this.currentPlace = place;
-    },
-    getPosition(marker) {
-      return {
-        lat: parseFloat(marker.lat),
-        lng: parseFloat(marker.lng)
-      };
-    },
-    addMarker() {
-      const marker = {
-        nombre: "Parque de la vida",
-        lat: 4.1466671,
-        lng: -73.6225355
-      };
-      this.markers.push(marker);
-      this.center = marker;
-    },
-    geolocate: function() {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          this.center = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-        },
-        error => {
-          console.log("Error>", error);
-        }
-      )
-    },
     redirect(ruta) {
       this.$router.push(ruta);
-    }
+    },
+    searchCategory(text) {
+        const villavo = new google.maps.LatLng(4.133999, -73.625197);
+        const request = {
+          location: villavo,
+          query: text,
+          fields: ["name", "geometry"]
+        };
+        const service = new google.maps.places.PlacesService(
+          this.$refs.myMap.$mapObject
+        );
+        this.cards = [];
+        let myCards = this.cards;
+        service.textSearch(request, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+              console.log(results[i]);
+              let item = { 
+                'id': results[i].id, 
+                'name': results[i].name,
+                'stars': results[i].rating,
+                'img': results[i].photos ? results[i].photos[0].getUrl() : ''
+              };
+              myCards.push(item);
+            }
+          }
+        });
+      },
   },
   components: {
     Menu,
