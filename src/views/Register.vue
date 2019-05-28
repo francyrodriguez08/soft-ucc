@@ -14,8 +14,7 @@
         <v-form 
         ref="form"
         v-model="valid"
-        lazy-validation
-        @submit.prevent="registerPerfil">
+        lazy-validation>
          <v-text-field
          class="input"
             v-model="name"
@@ -54,7 +53,7 @@
             <v-radio label="Personal" value="personal" color="orange" dark></v-radio>
             <v-radio label="Empresa" value="empresa" color="orange" dark></v-radio>
           </v-radio-group>
-          <v-btn class="button primary" type="submit" color="teal">Ingresar</v-btn>
+          <v-btn class="button primary" @click="validate" color="teal">Ingresar</v-btn>
           <div class="back" @click="redirect('/soft-ucc')">Ya estoy registrado</div>
          </v-form>
          </div>
@@ -62,53 +61,59 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   data() {
     return {
       valid: true,
-      errorMessage: '',
-        successMessage: '',
+      errorMessage: "",
+      successMessage: "",
       name: "",
-      nameRules: [
-        v => !!v || "Nombre es obligatorio"
-      ],
+      nameRules: [v => !!v || "Nombre es obligatorio"],
       email: "",
       emailRules: [
         v => !!v || "E-mail es obligatorio",
         v => /.+@.+/.test(v) || "E-mail no valido"
       ],
       show1: false,
-      password: '',
+      password: "",
       rules: {
-        required: value => !!value || 'Contraseña es obligatoria',
-        min: v => v.length >= 8 || 'Min 8 carácteres',
-        emailMatch: () => ('El correo electrónico y la contraseña que ingresaste no coinciden')
+        required: value => !!value || "Contraseña es obligatoria",
+        min: v => v.length >= 8 || "Min 8 carácteres",
+        emailMatch: () =>
+          "El correo electrónico y la contraseña que ingresaste no coinciden"
       },
-      check: ''
+      check: ""
     };
   },
-     methods:{
-      redirect(ruta){
-          this.$router.push(ruta);
-      },
-         validate() {
-      if (this.$refs.form.validate()) {
-        this.snackbar = true;
-      } else {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000
-        });
-        Toast.fire({
-          type: "error",
-          title: "Llenar todos los campos"
-        });
-      }
+  methods: {
+    redirect(ruta) {
+      this.$router.push(ruta);
     },
-      setMessages(res) {
+    validate() {
+      // console.log(new FormData(this.$refs.form.$el))
+      if (this.$refs.form.validate()) {
+        this.registerPerfil(this.$refs.form.$el)
+      } else {
+        console.log('no entro')
+      }
+
+      // if (this.$refs.form.validate()) {
+      //   this.snackbar = true;
+      // } else {
+      //   const Toast = Swal.mixin({
+      //     toast: true,
+      //     position: "top-end",
+      //     showConfirmButton: false,
+      //     timer: 3000
+      //   });
+      //   Toast.fire({
+      //     type: "error",
+      //     title: "Llenar todos los campos"
+      //   });
+      // }
+    },
+    setMessages(res) {
       if (res.data.error) {
         this.errorMessage = res.data.message;
       } else {
@@ -141,22 +146,21 @@ export default {
     //       this.reset();
     //     });
     // }
-      registerPerfil(e) {
-        // console.log(new FormData( e.target ))
-        axios
+    registerPerfil(e) {
+      axios
         .post(
-          "http://localhost/soft-ucc/src/api.php?action=create", 
-           new FormData( e.target )
-          // {
-          //   nom_perfil: this.name,
-          //   email_perfil: this.email,
-          //   pass_perfil: this.password,
-          // }
-        ).then(res => {
-          this.setMessages(res)
+          "http://localhost/soft-ucc/src/api.php?action=create",
+          new FormData(e)
+        )
+        .then(res => {
+          if (!res.data.error) {
+            this.redirect('/experiences')
+          }else {
+            console.log('No se registro')
+          }
         });
-      }
-  },
+    }
+  }
 };
 </script>
 
@@ -172,12 +176,12 @@ export default {
   color: white;
 }
 .filter {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.22);
-    z-index: -1;
-    top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.22);
+  z-index: -1;
+  top: 0;
 }
 .logo {
   width: 100px;
@@ -214,7 +218,7 @@ export default {
 .primary {
   background-color: teal;
   cursor: pointer;
-  transition: all ease .3s;
+  transition: all ease 0.3s;
 }
 .primary:hover {
   background-color: rgb(15, 119, 119);
@@ -233,11 +237,11 @@ export default {
   width: 50px;
 }
 .input {
-    flex: initial !important;
-    max-width: 280px;
-    width: 100%;
+  flex: initial !important;
+  max-width: 280px;
+  width: 100%;
 }
-.back{
+.back {
   margin-top: 10px;
 }
 .v-input {
