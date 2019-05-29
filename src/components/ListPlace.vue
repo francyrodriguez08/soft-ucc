@@ -7,18 +7,30 @@
         </v-toolbar>
         <v-container>
           <div class="inputPlace">
-            <v-text-field placeholder="¿A donde quieres ir?" prepend-inner-icon="search" color="teal" ></v-text-field>
+            <v-text-field placeholder="¿A donde quieres ir?" v-model="search" prepend-inner-icon="search" color="teal" ></v-text-field>
             <!-- <router-link to="/maps"></router-link> -->
-            <v-icon @click="redirect('/maps')">place</v-icon>
+            <v-icon @click="searchFromText()">send</v-icon>
           </div>
           <Categorys />
           <div class="wrapper">
-            <router-link tag="li" :to="`Experiences/infoPlace/id=${item.id}`" v-for="item in cards" :key="item.id">
+            <router-link tag="li" :to="`Experiences/infoPlace/${item.id}`" v-for="item in cards" :key="item.id">
               <Card :post="item" :stars="item.stars" />
             </router-link>
           </div>
-          <gmap-map ref="myMap"></gmap-map>
+          <gmap-map :center="{}" ref="myMap"></gmap-map>
         </v-container>
+        <v-btn
+              fixed
+              dark
+              fab
+              bottom=""
+              right
+              color="teal"
+              class="btn-float"
+              @click="redirect('/maps')"
+            >
+              <v-icon>place</v-icon>
+            </v-btn>
         <Menu />
     </div>
 </template>
@@ -33,8 +45,9 @@ export default {
     return {
       route:'',
       cards: [
-        
-      ]
+
+      ],
+      search:''
     };
   },
   mounted() {
@@ -59,6 +72,9 @@ export default {
     redirect(ruta) {
       this.$router.push(ruta);
     },
+    searchFromText(){
+      this.searchCategory(this.search);
+    },
     searchCategory(text) {
         const villavo = new google.maps.LatLng(4.133999, -73.625197);
         const request = {
@@ -71,10 +87,12 @@ export default {
         );
         this.cards = [];
         let myCards = this.cards;
+        let _this = this;
         service.textSearch(request, function(results, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
+            _this.$store.dispatch('setResults', results);
             for (var i = 0; i < results.length; i++) {
-              console.log(results[i]);
+              // console.log(results[i]);
               let item = { 
                 'id': results[i].id, 
                 'name': results[i].name,
@@ -108,5 +126,8 @@ export default {
 }
 li {
   list-style: none;
+}
+.btn-float {
+    bottom: 70px;
 }
 </style>

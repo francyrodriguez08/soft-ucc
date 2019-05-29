@@ -5,14 +5,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        category: ''
+        category: '',
+        results: []
     },
     mutations: {
         SET_CATEGORY(state, value){
             state.category = value
+        },
+        setResults(state, results){
+            state.results = results;
         }
     },
     actions: {
-
+        setResults({commit}, results){
+            commit('setResults', results);
+        }
     }
 })

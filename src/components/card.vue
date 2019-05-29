@@ -30,9 +30,12 @@
 
 <script>
 export default {
+    created() {
+        console.log(this.$props.stars)
+    },
     props:{
         post: Object,
-        'stars' : String,
+        'stars' : Number,
     },
     data() {
         return {

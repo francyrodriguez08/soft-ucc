@@ -1,13 +1,14 @@
 <template>
     <div>
       <v-toolbar dark color="teal">
+          <v-icon  @click="redirect('Experiences')">arrow_back</v-icon>
           <v-toolbar-title class="white--text">Experiencias</v-toolbar-title>
           <v-spacer></v-spacer>
       </v-toolbar>
       <v-toolbar dense>
         <!-- <div class="inputPlace"> -->
           <v-text-field placeholder="¿A donde quieres ir?" prepend-inner-icon="search" color="teal" ></v-text-field>
-          <v-icon @click="redirect('/experiences')">photo</v-icon>
+          <v-icon @click="redirect('/experiences')">send</v-icon>
         <!-- </div> -->
       </v-toolbar>
       <Categorys />
