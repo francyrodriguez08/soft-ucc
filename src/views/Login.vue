@@ -62,6 +62,7 @@
             prepend-icon="lock_outline"
           ></v-text-field>
           <v-btn class="button primary" type="submit" color="teal">Ingresar</v-btn>
+          <div class="back" @click="redirect('/soft-ucc')">No estoy registrado</div>
           <!-- <div class="button primary" @click="redirect('/Experiences')">Ingresar</div> -->
           <!-- <div class="button secundary">Iniciar sesión</div> -->
           </v-form>
@@ -156,7 +157,7 @@ export default {
             if(perfil.length > 0){
                 this.redirect('/experiences')
             }else{
-              alert(error);
+              // alert(error);
             }
         });
     }
