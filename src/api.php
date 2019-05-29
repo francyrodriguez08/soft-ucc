@@ -1,6 +1,6 @@
 <?php
     // require "conexion.php";
-    // header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: *");
 
     $conn = new mysqli( 'localhost', 'root','', 'experiences' );
         if ( $conn->connect_error ) {
@@ -12,6 +12,24 @@
 
     if(isset($_GET['action'])){
         $action = $_GET['action'];
+    }
+
+    if($action == 'login'){
+        $email_perfil = $_POST['email'];
+        $pass_perfil = md5($_POST['pass']);
+        
+        $result = $conn->query("SELECT * FROM perfil 
+        WHERE email_perfil = '$email_perfil' 
+        and pass_perfil = '$pass_perfil'");
+        $perfil = array();
+        while($row = $result->fetch_assoc()){
+            array_push($perfil,$row);
+        }
+        $res['perfil'] = $perfil;
+        $res['error'] = '';
+        if(count($perfil) == 0){
+            $res['error'] = 'Contraseña incorrecta';
+        }
     }
 
     if($action == 'read'){
