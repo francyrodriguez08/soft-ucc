@@ -1,0 +1,20 @@
+{
+    "name": "Experiencias",
+    "short-name": "Experiencias",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "theme_color": "#777777",
+    "background_color": "#fff",
+    "icons": [
+        {
+            "src": "/src/assets/logo.png",
+            "size": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "/src/assets/logo.png",
+            "size": "144x144",
+            "type": "image/png"
+        }
+    ]
+}
