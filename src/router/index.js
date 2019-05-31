@@ -10,6 +10,7 @@ import Favorite from '../views/Favorite'
 import Maps from '../views/Maps'
 import InfoPlace from '../views/InfoPlace'
 import ListPlace from '../components/ListPlace.vue'
+import AddPost from '../views/AddPost.vue'
 
 Vue.use(Router)
 
@@ -68,5 +69,10 @@ export default new Router({
         name: "Maps",
         component: Maps,
       },
+      {
+        path: "/addPost",
+        name: "AddPost",
+        component: AddPost,
+      }
     ]
   });
